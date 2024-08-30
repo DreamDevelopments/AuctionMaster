@@ -67,7 +67,7 @@ public class SkullTexture {
 
                 final ItemMeta meta = skull.getItemMeta();
                 try {
-                    PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+                    PlayerProfile profile = Bukkit.createPlayerProfile("AuctionMaster");
                     PlayerTextures textures = profile.getTextures();
                     texture = new String(Base64.getDecoder().decode(texture)).split("\"url\":\"")[1].split("\"")[0];
                     try {

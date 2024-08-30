@@ -3,6 +3,7 @@ package me.intel.AuctionMaster.AuctionObjects.Categories;
 import me.intel.AuctionMaster.AuctionObjects.Auction;
 import me.intel.AuctionMaster.AuctionMaster;
 import me.intel.AuctionMaster.Utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -76,13 +77,13 @@ public class Global implements Category {
     }
 
     public Global() {
-        backgroundGlass = AuctionMaster.itemConstructor.getItemFromMaterial("160:" + AuctionMaster.plugin.getConfig().getString("global-menu-color"));
-        ItemMeta meta = backgroundGlass.getItemMeta();
-        meta.setDisplayName(" ");
-        backgroundGlass.setItemMeta(meta);
+        backgroundGlass= new ItemStack(Material.AIR);//AuctionMaster.itemConstructor.getItemFromMaterial("160:"+ AuctionMaster.plugin.getConfig().getString("weapons-menu-color"));
+        //ItemMeta meta = backgroundGlass.getItemMeta();
+        //meta.setDisplayName(" ");
+        //backgroundGlass.setItemMeta(meta);
 
         displayCategoryItem = AuctionMaster.itemConstructor.getItemFromMaterial(AuctionMaster.plugin.getConfig().getString("global-category-item"));
-        meta = displayCategoryItem.getItemMeta();
+        ItemMeta meta = displayCategoryItem.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName(Utils.chat(AuctionMaster.plugin.getConfig().getString("global-category-name")));
         ArrayList<String> lore = new ArrayList<>();

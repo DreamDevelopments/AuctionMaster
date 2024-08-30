@@ -3,6 +3,7 @@ package me.intel.AuctionMaster.AuctionObjects.Categories;
 import me.intel.AuctionMaster.AuctionObjects.Auction;
 import me.intel.AuctionMaster.AuctionMaster;
 import me.intel.AuctionMaster.Utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static me.intel.AuctionMaster.AuctionMaster.toolsCfg;
+import static me.intel.AuctionMaster.AuctionMaster.weaponsCfg;
 
 public class Tools implements Category{
 
@@ -86,13 +88,13 @@ public class Tools implements Category{
         for (String line : toolsCfg.getStringList("custom-item-ids")) {
             priorityIds.add(AuctionMaster.itemConstructor.getItemFromMaterial(line));
         }
-        backgroundGlass= AuctionMaster.itemConstructor.getItemFromMaterial("160:"+ AuctionMaster.plugin.getConfig().getString("tools-menu-color"));
-        ItemMeta meta = backgroundGlass.getItemMeta();
-        meta.setDisplayName(" ");
-        backgroundGlass.setItemMeta(meta);
+        backgroundGlass= new ItemStack(Material.AIR);//AuctionMaster.itemConstructor.getItemFromMaterial("160:"+ AuctionMaster.plugin.getConfig().getString("weapons-menu-color"));
+        //ItemMeta meta = backgroundGlass.getItemMeta();
+        //meta.setDisplayName(" ");
+        //backgroundGlass.setItemMeta(meta);
 
         displayCategoryItem= AuctionMaster.itemConstructor.getItemFromMaterial(toolsCfg.getString("tools-menu-item"));
-        meta = displayCategoryItem.getItemMeta();
+        ItemMeta meta = displayCategoryItem.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName(Utils.chat(toolsCfg.getString("tools-menu-name")));
         ArrayList<String> lore = new ArrayList<>();

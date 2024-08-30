@@ -2,6 +2,7 @@ package me.intel.AuctionMaster.FilesHandle;
 
 import me.intel.AuctionMaster.AuctionMaster;
 import me.intel.AuctionMaster.Utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ public class ConfigLoad {
     private final ArrayList<String> blacklistNames;
     private final ArrayList<ArrayList<String>> blacklistLore;
     public boolean isBlacklisted(Player player, ItemStack item){
-        String itemName= Utils.getDisplayName(item);
+        String itemName= ChatColor.stripColor(Utils.getDisplayName(item));
         for (String name : blacklistNames) {
             String newName = name
                     .replace("%name%", player.getName())
@@ -29,11 +30,13 @@ public class ConfigLoad {
         }
 
         ArrayList<String> toCheck = (ArrayList<String>)item.getItemMeta().getLore();
-        if(toCheck!=null)
-            for(ArrayList<String> lore : blacklistLore){
-                if(lore.containsAll(toCheck))
+        if(toCheck!=null) {
+            toCheck.replaceAll(ChatColor::stripColor);
+            for (ArrayList<String> lore : blacklistLore) {
+                if (toCheck.containsAll(lore))
                     return true;
             }
+        }
 
         if(AuctionMaster.upperVersion){
             for(ItemStack item2 : blacklistIds)
@@ -423,12 +426,12 @@ public class ConfigLoad {
 
         endOwnAuction= AuctionMaster.plugin.getConfig().getBoolean("use-end-own-auction");
 
-        backgroundGlass= AuctionMaster.itemConstructor.getItem("160:"+ AuctionMaster.plugin.getConfig().getInt("background-color"),  " ", null);
+        backgroundGlass= new ItemStack(Material.AIR);//AuctionMaster.itemConstructor.getItem("160:"+ AuctionMaster.plugin.getConfig().getInt("background-color"),  " ", null);
 
         mainMenuName= AuctionMaster.plugin.getConfig().getString("starting-menu-name");
         mainMenuSize= AuctionMaster.menusCfg.getInt("main-menu.size");
 
-        useBackgoundGlass= AuctionMaster.plugin.getConfig().getBoolean("use-background-glass");
+        useBackgoundGlass= false;//AuctionMaster.plugin.getConfig().getBoolean("use-background-glass");
 
         goBackName= AuctionMaster.plugin.getConfig().getString("go-back-item-name");
         goNextName= AuctionMaster.plugin.getConfig().getString("go-next-item-name");

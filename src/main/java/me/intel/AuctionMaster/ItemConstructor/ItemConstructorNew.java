@@ -1,5 +1,6 @@
 package me.intel.AuctionMaster.ItemConstructor;
 
+import me.intel.AuctionMaster.AuctionMaster;
 import me.intel.AuctionMaster.Utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -35,6 +36,9 @@ public class ItemConstructorNew implements ItemConstructor {
     public ItemStack getItem(String material, String name, ArrayList<String> lore) {
         ItemStack item = getItemFromMaterial(material);
         ItemMeta meta = item.getItemMeta();
+        if(meta == null) {
+            AuctionMaster.plugin.getLogger().warning("Error while creating item: " + material + " - " + name);
+        }
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName(Utils.chat(name));
         meta.setLore(lore);
