@@ -89,6 +89,8 @@ public class SQLiteDatabase implements DatabaseHandler {
                                 " sellerName VARCHAR(16), " +
                                 " sellerUUID VARCHAR(36), " +
                                 " item MEDIUMTEXT, " +
+                                " buyerClaimed BOOL, " +
+                                " buyerName VARCHAR(16), " +
                                 " displayName VARCHAR(40), " +
                                 " bids MEDIUMTEXT, " +
                                 " sellerClaimed BOOL, "+
@@ -323,7 +325,7 @@ public class SQLiteDatabase implements DatabaseHandler {
                 PreparedStatement select = Auctions.prepareStatement("UPDATE Auctions SET buyerClaimed = 1 WHERE id ='"+id+"'")
                 //  UPDATE Auctions SET buyerClaimed = 1 WHERE id ='237ecfc6-aa6b-4c13-9344-e7216213eff7'
         ) {
-            select.executeQuery();
+            select.executeUpdate();
 
         } catch (Exception x) {
             AuctionMaster.plugin.getLogger().warning("There is a problem in PreviewData database!");
@@ -395,7 +397,7 @@ public class SQLiteDatabase implements DatabaseHandler {
         Bukkit.getScheduler().runTaskAsynchronously(AuctionMaster.plugin, () -> {
             try(
                     Connection Auctions = DriverManager.getConnection(url);
-                    PreparedStatement stmt = Auctions.prepareStatement("INSERT INTO Auctions VALUES (?, ?, ?, ?, ?, ?, ?, ?, '"+(auction.isBIN()?"BIN":"")+" 0,,, ', 0)")
+                    PreparedStatement stmt = Auctions.prepareStatement("INSERT INTO Auctions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '"+(auction.isBIN()?"BIN":"")+" 0,,, ', 0)")
             ){
                 stmt.setString(1, auction.getId());
                 stmt.setDouble(2, auction.getCoins());
@@ -404,7 +406,9 @@ public class SQLiteDatabase implements DatabaseHandler {
                 stmt.setString(5, auction.getSellerName());
                 stmt.setString(6, auction.getSellerUUID());
                 stmt.setString(7, Utils.itemToBase64(auction.getItemStack()));
-                stmt.setString(8, auction.getDisplayName());
+                stmt.setBoolean(8, false);
+                stmt.setString(9, "buyer");
+                stmt.setString(10, auction.getDisplayName());
                 stmt.executeUpdate();
             }catch(Exception x){
                 if (x.getMessage().startsWith("[SQLITE_BUSY]"))
