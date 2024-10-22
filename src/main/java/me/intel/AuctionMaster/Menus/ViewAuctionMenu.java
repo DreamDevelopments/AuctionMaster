@@ -354,7 +354,8 @@ public class ViewAuctionMenu {
         inventory.setItem(AuctionMaster.menusCfg.getInt("view-auction-menu.go-back-slot"), AuctionMaster.itemConstructor.getItem(AuctionMaster.configLoad.goBackMaterial, AuctionMaster.utilsAPI.chat(player, AuctionMaster.configLoad.goBackName), lore));
 
         Bukkit.getPluginManager().registerEvents(auction.isBIN() ? new ClickListenBIN() : new ClickListen(), AuctionMaster.plugin);
-        player.openInventory(inventory);
+
+        Bukkit.getScheduler().runTask(AuctionMaster.plugin, () -> player.openInventory(inventory));
         keepUpdated();
     }
 
